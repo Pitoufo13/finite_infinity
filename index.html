@@ -58,6 +58,7 @@
                 if (remaining_seconds <= 0) {
                     clearInterval(countdown_interval);
                     updateResult();
+                    showRestartButton();
                 }
             }, 100);
         }
@@ -82,6 +83,7 @@
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
                 game_active = false;
                 clearInterval(countdown_interval);
+                showRestartButton();
             }
         }
 
@@ -91,6 +93,13 @@
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
                 game_active = false;
             }
+        }
+
+        function showRestartButton() {
+            const restartButton = document.createElement('button');
+            restartButton.textContent = 'Restart';
+            restartButton.onclick = startGame;
+            document.getElementById('game-container').appendChild(restartButton);
         }
     </script>
 </body>
