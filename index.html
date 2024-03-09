@@ -68,10 +68,10 @@
         }
 
         function startGame() {
-            // Remove existing buttons
-            const gameContainer = document.getElementById('game-container');
-            while (gameContainer.firstChild) {
-                gameContainer.removeChild(gameContainer.firstChild);
+            // Remove existing restart button
+            const existingRestartButton = document.getElementById('restart-button');
+            if (existingRestartButton) {
+                existingRestartButton.remove();
             }
 
             // Reset game state
@@ -107,10 +107,17 @@
         }
 
         function showRestartButton() {
+            // Remove existing restart button
+            const existingRestartButton = document.getElementById('restart-button');
+            if (existingRestartButton) {
+                existingRestartButton.remove();
+            }
+
             const restartButton = document.createElement('button');
             restartButton.textContent = 'Restart';
             restartButton.onclick = startGame;
             restartButton.classList.add('restart-button');
+            restartButton.id = 'restart-button';
             document.getElementById('game-container').appendChild(restartButton);
         }
     </script>
