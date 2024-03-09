@@ -45,7 +45,7 @@
 
         function updateDisplay() {
             document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
-            document.getElementById('remaining-time').textContent = `Press the button!`;
+            document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
             document.getElementById('start-button').textContent = `Press Me!`;
             document.getElementById('start-button').onclick = onPress;
         }
