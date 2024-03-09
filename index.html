@@ -36,6 +36,8 @@
         let reaction_time = null;
         let difference = null;
         let game_active = false;
+        let countdown_interval = null;
+        let remaining_seconds = total_time;
 
         function generateTargetTime() {
             return Math.random() * total_time;
@@ -48,16 +50,28 @@
             document.getElementById('start-button').onclick = onPress;
         }
 
+        function startCountdown() {
+            countdown_interval = setInterval(function () {
+                remaining_seconds -= 0.1;
+                document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
+
+                if (remaining_seconds <= 0) {
+                    clearInterval(countdown_interval);
+                    updateResult();
+                }
+            }, 100);
+        }
+
         function startGame() {
             target_time = generateTargetTime();
             start_time = new Date().getTime() / 1000;
             reaction_time = null;
             difference = null;
             game_active = true;
+            remaining_seconds = total_time;
 
             updateDisplay();
-
-            setTimeout(updateResult, total_time * 1000);
+            startCountdown();
         }
 
         function onPress() {
@@ -67,6 +81,7 @@
 
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
                 game_active = false;
+                clearInterval(countdown_interval);
             }
         }
 
