@@ -47,7 +47,6 @@
             document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
             document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
             document.getElementById('start-button').textContent = game_active ? 'Press Me!' : 'Restart';
-            document.getElementById('start-button').onclick = game_active ? onPress : startGame;
         }
 
         function startCountdown() {
@@ -82,6 +81,7 @@
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
                 game_active = false;
                 clearInterval(countdown_interval);
+                updateDisplay();
             }
         }
 
