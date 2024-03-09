@@ -20,13 +20,19 @@
             flex-direction: column;
             align-items: center;
         }
+
+        #restart-button {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div id="game-container">
         <p id="target-time"></p>
         <p id="remaining-time"></p>
-        <button id="start-button" onclick="startGame()">Press Me!</button>
+        <button id="start-button" onclick="startGame()">Start</button>
+        <button id="restart-button" onclick="restartGame()">Restart</button>
     </div>
 
     <script>
@@ -47,6 +53,10 @@
             document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
             document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
             document.getElementById('start-button').textContent = game_active ? 'Press Me!' : 'Restart';
+
+            if (!game_active) {
+                document.getElementById('restart-button').style.display = 'block';
+            }
         }
 
         function startCountdown() {
@@ -69,6 +79,7 @@
             game_active = true;
             remaining_seconds = total_time;
 
+            document.getElementById('restart-button').style.display = 'none';
             updateDisplay();
             startCountdown();
         }
@@ -91,6 +102,12 @@
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
                 game_active = false;
             }
+            updateDisplay(); // Update display to show the "Restart" button
+        }
+
+        function restartGame() {
+            document.getElementById('restart-button').style.display = 'none';
+            startGame();
         }
     </script>
 </body>
