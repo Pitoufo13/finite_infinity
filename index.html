@@ -32,12 +32,8 @@
     <script>
         let total_time = 6;
         let target_time = 0;
-        let start_time = 0;
         let reaction_time = null;
         let difference = null;
-        let game_active = false;
-        let countdown_interval = null;
-        let remaining_seconds = total_time;
 
         function generateTargetTime() {
             return Math.random() * total_time;
@@ -45,20 +41,9 @@
 
         function updateDisplay() {
             document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
-            document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
-            document.getElementById('start-button').textContent = game_active ? 'Restart';
-        }
-
-        function startCountdown() {
-            countdown_interval = setInterval(function () {
-                remaining_seconds -= 0.1;
-                document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
-
-                if (remaining_seconds <= 0) {
-                    clearInterval(countdown_interval);
-                    updateResult();
-                }
-            }, 100);
+            document.getElementById('remaining-time').textContent = `Press the button!`;
+            document.getElementById('start-button').textContent = `Press Me!`;
+            document.getElementById('start-button').onclick = onPress;
         }
 
         function startGame() {
@@ -66,32 +51,26 @@
             start_time = new Date().getTime() / 1000;
             reaction_time = null;
             difference = null;
-            game_active = true;
-            remaining_seconds = total_time;
 
             updateDisplay();
-            startCountdown();
+
+            setTimeout(updateResult, total_time * 1000);
         }
 
         function onPress() {
-            if (game_active && reaction_time === null) {
+            if (reaction_time === null) {
                 reaction_time = new Date().getTime() / 1000 - start_time;
                 difference = Math.abs((total_time - reaction_time) - target_time);
 
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
-                game_active = false;
-                clearInterval(countdown_interval);
-                updateDisplay();
             }
         }
 
         function updateResult() {
-            if (game_active) {
+            if (reaction_time === null) {
                 difference = total_time - target_time;
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
-                game_active = false;
             }
-            updateDisplay(); // Update display to show the "Restart" button
         }
     </script>
 </body>
