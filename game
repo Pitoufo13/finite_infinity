@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Time Game</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <p id="target-time"></p>
+        <p id="remaining-time"></p>
+        <button id="start-button" onclick="startGame()">Start</button>
+    </div>
+
+    <script>
+        let total_time = 6;
+        let target_time = 0;
+        let reaction_time = null;
+        let difference = null;
+
+        function generateTargetTime() {
+            return Math.random() * total_time;
+        }
+
+        function updateDisplay() {
+            document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
+            document.getElementById('remaining-time').textContent = `Press the button!`;
+            document.getElementById('start-button').textContent = `Press Me!`;
+            document.getElementById('start-button').onclick = onPress;
+        }
+
+        function startGame() {
+            target_time = generateTargetTime();
+            start_time = new Date().getTime() / 1000;
+            reaction_time = null;
+            difference = null;
+
+            updateDisplay();
+
+            setTimeout(updateResult, total_time * 1000);
+        }
+
+        function onPress() {
+            if (reaction_time === null) {
+                reaction_time = new Date().getTime() / 1000 - start_time;
+                difference = Math.abs((total_time - reaction_time) - target_time);
+
+                document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
+            }
+        }
+
+        function updateResult() {
+            if (reaction_time === null) {
+                difference = total_time - target_time;
+                document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
+            }
+        }
+    </script>
+</body>
+</html>
