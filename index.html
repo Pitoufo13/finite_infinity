@@ -68,22 +68,15 @@
         }
 
         function startGame() {
-            // Remove existing buttons
-            const gameContainer = document.getElementById('game-container');
-            while (gameContainer.firstChild) {
-                gameContainer.removeChild(gameContainer.firstChild);
-            }
-
-            // Reset game state
             target_time = generateTargetTime();
-            start_time = 0;
+            start_time = new Date().getTime() / 1000;
             reaction_time = null;
             difference = null;
-            game_active = false;
+            game_active = true;
             remaining_seconds = total_time;
 
-            // Display initial button
             updateDisplay();
+            startCountdown();
         }
 
         function onPress() {
