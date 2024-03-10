@@ -13,6 +13,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
+            position: relative;
         }
 
         #game-container {
@@ -57,7 +58,7 @@
 
         function updatePeriods() {
             total_time = parseInt(document.getElementById('periods-input').value);
-            startGame();  // Restart the game with the new number of periods
+            updateDisplay();  // Update the display with the new number of periods
         }
 
         // ... (rest of your existing code remains unchanged)
