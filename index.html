@@ -21,15 +21,28 @@
             align-items: center;
         }
 
+        #game-info {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #333;
+        }
+
         .restart-button {
             margin-top: 5mm;
         }
     </style>
 </head>
 <body>
+    <div id="game-info">
+        <p id="period-info">Number of periods: 1</p>
+        <p id="stop-info">Stop the game between period 0 and 1</p>
+    </div>
+
     <div id="game-container">
-        <label for="periods-input">Number of periods:</label>
-        <input type="number" id="periods-input" value="6" min="1" step="1">
+        <p id="target-time"></p>
+        <p id="remaining-time"></p>
         <button id="start-button" onclick="startGame()">Start</button>
     </div>
 
@@ -73,9 +86,6 @@
                 restartButton.style.display = 'none';
             }
 
-            // Update total_time with the user's input
-            total_time = parseInt(document.getElementById('periods-input').value);
-            
             target_time = generateTargetTime();
             start_time = new Date().getTime() / 1000;
             reaction_time = null;
