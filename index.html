@@ -34,19 +34,7 @@
     </div>
 
     <script>
-        let total_time = 6;
-        let target_time = 0;
-        let start_time = 0;
-        let reaction_time = null;
-        let difference = null;
-        let game_active = false;
-        let countdown_interval = null;
-        let remaining_seconds = total_time;
-        let restartButton = null;
-
-        function generateTargetTime() {
-            return Math.random() * total_time;
-        }
+        // ... (Your existing JavaScript code)
 
         function updateDisplay() {
             document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
@@ -55,66 +43,22 @@
             document.getElementById('start-button').onclick = onPress;
         }
 
-        function startCountdown() {
-            countdown_interval = setInterval(function () {
-                remaining_seconds -= 0.1;
-                document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
-
-                if (remaining_seconds <= 0) {
-                    clearInterval(countdown_interval);
-                    updateResult();
-                    showRestartButton();
-                }
-            }, 100);
-        }
-
-        function startGame() {
-            if (restartButton) {
-                restartButton.style.display = 'none';
-            }
-
-            target_time = generateTargetTime();
-            start_time = new Date().getTime() / 1000;
-            reaction_time = null;
-            difference = null;
-            game_active = true;
-            remaining_seconds = total_time;
-
-            updateDisplay();
-            startCountdown();
-        }
-
         function onPress() {
             if (game_active && reaction_time === null) {
                 reaction_time = new Date().getTime() / 1000 - start_time;
-                difference = Math.abs((total_time - reaction_time) - target_time);
+                difference = (total_time - reaction_time) - target_time;
 
-                document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
+                // Determine the sign based on the relationship between remaining time and target time
+                const sign = remaining_seconds < target_time ? '-' : '+';
+                document.getElementById('remaining-time').textContent = `Difference: ${sign}${Math.abs(difference).toFixed(3)} seconds`;
+
                 game_active = false;
                 clearInterval(countdown_interval);
                 showRestartButton();
             }
         }
 
-        function updateResult() {
-            if (game_active) {
-                difference = total_time - target_time;
-                document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
-                game_active = false;
-            }
-        }
-
-        function showRestartButton() {
-            if (!restartButton) {
-                restartButton = document.createElement('button');
-                restartButton.textContent = 'Restart';
-                restartButton.onclick = startGame;
-                restartButton.classList.add('restart-button');
-                document.getElementById('game-container').appendChild(restartButton);
-            } else {
-                restartButton.style.display = 'block';
-            }
-        }
+        // ... (Your existing JavaScript code)
     </script>
 </body>
 </html>
