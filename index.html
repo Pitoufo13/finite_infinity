@@ -117,7 +117,8 @@
                     differenceDisplay.style.color = 'blue';
                 }
 
-                differenceDisplay.textContent = `Difference: ${difference.toFixed(3)} seconds`;
+                // Update the label to "Period you clicked"
+                differenceDisplay.textContent = `Period you clicked: ${difference.toFixed(3)} seconds`;
                 game_active = false;
                 clearInterval(countdown_interval);
                 showRestartButton();
