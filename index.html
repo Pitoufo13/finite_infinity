@@ -108,17 +108,37 @@
         function onPress() {
             if (game_active && reaction_time === null) {
                 reaction_time = new Date().getTime() / 1000 - start_time;
-                difference = Math.abs((total_time - reaction_time) - target_time);
+                difference = total_time - reaction_time;
 
                 let differenceDisplay = document.getElementById('remaining-time');
-                if (reaction_time > target_time && difference <= 0.001) {
+                let feedback = "";
+
+                if (reaction_time > target_time) {
+                    if (difference >= 2 * total_time / 6 && difference <= 3 * total_time / 6) {
+                        feedback = "On time";
+                    } else if (difference >= 0 && difference <= total_time / 6) {
+                        feedback = "2 periods too late";
+                    } else if (difference > total_time / 6 && difference <= 2 * total_time / 6) {
+                        feedback = "1 period too late";
+                    } else if (difference > 3 * total_time / 6 && difference <= 4 * total_time / 6) {
+                        feedback = "1 period too early";
+                    } else if (difference > 4 * total_time / 6 && difference <= 5 * total_time / 6) {
+                        feedback = "2 periods too early";
+                    } else if (difference > 5 * total_time / 6) {
+                        feedback = "3 periods too early";
+                    } else {
+                        feedback = "Way too early";
+                    }
+                }
+
+                if (difference <= 0.001) {
                     differenceDisplay.style.color = 'red';
                 } else {
                     differenceDisplay.style.color = 'blue';
                 }
 
-                // Update the label to "Period you clicked"
-                differenceDisplay.textContent = `Period you clicked: ${difference.toFixed(3)} seconds`;
+                // Update the label based on the specified conditions
+                differenceDisplay.textContent = `Period you clicked: ${feedback}`;
                 game_active = false;
                 clearInterval(countdown_interval);
                 showRestartButton();
