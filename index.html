@@ -42,6 +42,7 @@
         let game_active = false;
         let countdown_interval = null;
         let remaining_seconds = total_time;
+        let restartButton = null;
 
         function generateTargetTime() {
             return Math.random() * total_time;
@@ -68,6 +69,10 @@
         }
 
         function startGame() {
+            if (restartButton) {
+                restartButton.style.display = 'none';
+            }
+
             target_time = generateTargetTime();
             start_time = new Date().getTime() / 1000;
             reaction_time = null;
@@ -100,11 +105,15 @@
         }
 
         function showRestartButton() {
-            const restartButton = document.createElement('button');
-            restartButton.textContent = 'Restart';
-            restartButton.onclick = startGame;
-            restartButton.classList.add('restart-button');
-            document.getElementById('game-container').appendChild(restartButton);
+            if (!restartButton) {
+                restartButton = document.createElement('button');
+                restartButton.textContent = 'Restart';
+                restartButton.onclick = startGame;
+                restartButton.classList.add('restart-button');
+                document.getElementById('game-container').appendChild(restartButton);
+            } else {
+                restartButton.style.display = 'block';
+            }
         }
     </script>
 </body>
