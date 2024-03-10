@@ -72,9 +72,75 @@
             document.getElementById('start-button').onclick = onPress;
         }
 
-        // Rest of your existing code...
-        // ...
+        function startCountdown() {
+            countdown_interval = setInterval(function () {
+                remaining_seconds -= 0.1;
+                document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
 
+                if (remaining_seconds <= 0) {
+                    clearInterval(countdown_interval);
+                    updateResult();
+                    showRestartButton();
+                }
+            }, 100);
+        }
+
+        function startGame() {
+            if (restartButton) {
+                restartButton.style.display = 'none';
+            }
+
+            // Fix the target time to 2.000 seconds
+            target_time = 2.0;
+
+            start_time = new Date().getTime() / 1000;
+            reaction_time = null;
+            difference = null;
+            game_active = true;
+            remaining_seconds = total_time;
+
+            updateDisplay();
+            startCountdown();
+        }
+
+        function onPress() {
+            if (game_active && reaction_time === null) {
+                reaction_time = new Date().getTime() / 1000 - start_time;
+                difference = Math.abs((total_time - reaction_time) - target_time);
+
+                let differenceDisplay = document.getElementById('remaining-time');
+                if (reaction_time > target_time && difference <= 0.001) {
+                    differenceDisplay.style.color = 'red';
+                } else {
+                    differenceDisplay.style.color = 'blue';
+                }
+
+                differenceDisplay.textContent = `Difference: ${difference.toFixed(3)} seconds`;
+                game_active = false;
+                clearInterval(countdown_interval);
+                showRestartButton();
+            }
+        }
+
+        function updateResult() {
+            if (game_active) {
+                difference = total_time - target_time;
+                document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
+                game_active = false;
+            }
+        }
+
+        function showRestartButton() {
+            if (!restartButton) {
+                restartButton = document.createElement('button');
+                restartButton.textContent = 'Restart';
+                restartButton.onclick = startGame;
+                restartButton.classList.add('restart-button');
+                document.getElementById('game-container').appendChild(restartButton);
+            } else {
+                restartButton.style.display = 'block';
+            }
+        }
     </script>
 
     <div id="game-info">
