@@ -112,17 +112,17 @@
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
 
-                if (reaction_time >= 2 * total_time / 6 && reaction_time <= 3 * total_time / 6) {
+                if (remainingTimeAtClick.toFixed(1) >= 2 * total_time / 6 && remainingTimeAtClick.toFixed(1) <= 3 * total_time / 6) {
                     feedback = "On time";
-                } else if (reaction_time >= 0 && reaction_time <= total_time / 6) {
+                } else if (remainingTimeAtClick.toFixed(1) >= 0 && remainingTimeAtClick.toFixed(1) <= total_time / 6) {
                     feedback = "2 periods too late";
-                } else if (reaction_time > total_time / 6 && reaction_time <= 2 * total_time / 6) {
+                } else if (remainingTimeAtClick.toFixed(1) > total_time / 6 && remainingTimeAtClick.toFixed(1) <= 2 * total_time / 6) {
                     feedback = "1 period too late";
-                } else if (reaction_time > 3 * total_time / 6 && reaction_time <= 4 * total_time / 6) {
+                } else if (remainingTimeAtClick.toFixed(1) > 3 * total_time / 6 && remainingTimeAtClick.toFixed(1) <= 4 * total_time / 6) {
                     feedback = "1 period too early";
-                } else if (reaction_time > 4 * total_time / 6 && reaction_time <= 5 * total_time / 6) {
+                } else if (remainingTimeAtClick.toFixed(1) > 4 * total_time / 6 && remainingTimeAtClick.toFixed(1) <= 5 * total_time / 6) {
                     feedback = "2 periods too early";
-                } else if (reaction_time > 5 * total_time / 6) {
+                } else if (remainingTimeAtClick.toFixed(1) > 5 * total_time / 6) {
                     feedback = "3 periods too early";
                 } else {
                     feedback = "Way too early";
