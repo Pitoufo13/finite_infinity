@@ -45,10 +45,11 @@
         let countdown_interval = null;
         let remaining_seconds = total_time;
         let restartButton = null;
+        let numberOfPeriods = 1; // Default value
 
         // Function to get the number of periods from the user
         function getNumberOfPeriods() {
-            let numberOfPeriods = prompt("Choose the number of periods (positive integer):");
+            numberOfPeriods = prompt("Choose the number of periods (positive integer):");
             numberOfPeriods = parseInt(numberOfPeriods);
 
             // Validate if the input is a positive integer
@@ -60,6 +61,7 @@
             // Update period information
             document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
             document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
+            document.getElementById('stop-info').textContent = `Stop the game between period ${numberOfPeriods - 1} and ${numberOfPeriods}`;
         }
 
         // Call the function to get the number of periods when the page loads
