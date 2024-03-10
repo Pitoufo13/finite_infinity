@@ -86,7 +86,9 @@
                 restartButton.style.display = 'none';
             }
 
-            target_time = generateTargetTime();
+            // Fix the target time to 2.000 seconds
+            target_time = 2.0;
+
             start_time = new Date().getTime() / 1000;
             reaction_time = null;
             difference = null;
