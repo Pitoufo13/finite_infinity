@@ -84,22 +84,22 @@
             startCountdown();
         }
 
-        function onPress() {
-            if (game_active && reaction_time === null) {
-                reaction_time = new Date().getTime() / 1000 - start_time;
-                difference = Math.abs((total_time - reaction_time) - target_time);
+         function onPress() {
+        if (game_active && reaction_time === null) {
+            reaction_time = new Date().getTime() / 1000 - start_time;
+            difference = Math.abs((total_time - reaction_time) - target_time);
 
-                let differenceDisplay = document.getElementById('remaining-time');
-                if (reaction_time > target_time) {
-                    differenceDisplay.style.color = 'red';
-                } else {
-                    differenceDisplay.style.color = 'blue';
-                }
+            let differenceDisplay = document.getElementById('remaining-time');
+            if (reaction_time > target_time && difference <= 0.001) {
+                differenceDisplay.style.color = 'red';
+            } else {
+                differenceDisplay.style.color = 'blue';
+            }
 
-                differenceDisplay.textContent = `Difference: ${difference.toFixed(3)} seconds`;
-                game_active = false;
-                clearInterval(countdown_interval);
-                showRestartButton();
+            differenceDisplay.textContent = `Difference: ${difference.toFixed(3)} seconds`;
+            game_active = false;
+            clearInterval(countdown_interval);
+            showRestartButton();
             }
         }
 
