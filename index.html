@@ -60,7 +60,7 @@
 
             // Update period information
             document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
-            document.getElementById('period-length').textContent = `Length of a period: ${2 * total_time / numberOfPeriods}`;
+            document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
             document.getElementById('stop-info').textContent = `Stop the game between period ${2} and ${3}`;
         }
 
@@ -93,7 +93,7 @@
             }
 
             // Fix the target time to 2.000 seconds
-            target_time = 6 / numberOfPeriods;
+            target_time = 2 * 6 / numberOfPeriods;
 
             start_time = new Date().getTime() / 1000;
             reaction_time = null;
