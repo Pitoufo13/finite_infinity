@@ -13,7 +13,6 @@
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
-            position: relative;
         }
 
         #game-container {
@@ -25,23 +24,12 @@
         .restart-button {
             margin-top: 5mm;
         }
-
-        #periods-notice {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
     </style>
 </head>
 <body>
-    <div id="periods-notice">
-        <label for="periods-input">Number of Periods: </label>
-        <input type="number" id="periods-input" min="1" value="6" onchange="updatePeriods()">
-    </div>
-
     <div id="game-container">
-        <p id="target-time"></p>
-        <p id="remaining-time"></p>
+        <label for="periods-input">Number of periods:</label>
+        <input type="number" id="periods-input" value="6" min="1" step="1">
         <button id="start-button" onclick="startGame()">Start</button>
     </div>
 
@@ -56,13 +44,87 @@
         let remaining_seconds = total_time;
         let restartButton = null;
 
-        function updatePeriods() {
-            total_time = parseInt(document.getElementById('periods-input').value);
-            updateDisplay();  // Update the display with the new number of periods
+        function generateTargetTime() {
+            return Math.random() * total_time;
         }
 
-        // ... (rest of your existing code remains unchanged)
+        function updateDisplay() {
+            document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
+            document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
+            document.getElementById('start-button').textContent = `Press Me!`;
+            document.getElementById('start-button').onclick = onPress;
+        }
 
+        function startCountdown() {
+            countdown_interval = setInterval(function () {
+                remaining_seconds -= 0.1;
+                document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
+
+                if (remaining_seconds <= 0) {
+                    clearInterval(countdown_interval);
+                    updateResult();
+                    showRestartButton();
+                }
+            }, 100);
+        }
+
+        function startGame() {
+            if (restartButton) {
+                restartButton.style.display = 'none';
+            }
+
+            // Update total_time with the user's input
+            total_time = parseInt(document.getElementById('periods-input').value);
+            
+            target_time = generateTargetTime();
+            start_time = new Date().getTime() / 1000;
+            reaction_time = null;
+            difference = null;
+            game_active = true;
+            remaining_seconds = total_time;
+
+            updateDisplay();
+            startCountdown();
+        }
+
+         function onPress() {
+        if (game_active && reaction_time === null) {
+            reaction_time = new Date().getTime() / 1000 - start_time;
+            difference = Math.abs((total_time - reaction_time) - target_time);
+
+            let differenceDisplay = document.getElementById('remaining-time');
+            if (reaction_time > target_time && difference <= 0.001) {
+                differenceDisplay.style.color = 'red';
+            } else {
+                differenceDisplay.style.color = 'blue';
+            }
+
+            differenceDisplay.textContent = `Difference: ${difference.toFixed(3)} seconds`;
+            game_active = false;
+            clearInterval(countdown_interval);
+            showRestartButton();
+            }
+        }
+
+        function updateResult() {
+            if (game_active) {
+                difference = total_time - target_time;
+                document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
+                game_active = false;
+            }
+        }
+
+        function showRestartButton() {
+            if (!restartButton) {
+                restartButton = document.createElement('button');
+                restartButton.textContent = 'Restart';
+                restartButton.onclick = startGame;
+                restartButton.classList.add('restart-button');
+                document.getElementById('game-container').appendChild(restartButton);
+            } else {
+                restartButton.style.display = 'block';
+            }
+        }
     </script>
 </body>
 </html>
