@@ -40,7 +40,6 @@
         let target_time = 0;
         let start_time = 0;
         let reaction_time = null;
-        let difference = null;
         let game_active = false;
         let countdown_interval = null;
         let remaining_seconds = total_time;
@@ -97,7 +96,6 @@
 
             start_time = new Date().getTime() / 1000;
             reaction_time = null;
-            difference = null;
             game_active = true;
             remaining_seconds = total_time;
 
@@ -108,36 +106,26 @@
         function onPress() {
             if (game_active && reaction_time === null) {
                 reaction_time = new Date().getTime() / 1000 - start_time;
-                difference = reaction_time;
 
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
 
-                if (reaction_time > target_time) {
-                    if (difference >= 2 * total_time / 6 && difference <= 3 * total_time / 6) {
-                        feedback = "On time";
-                    } else if (difference >= 0 && difference <= total_time / 6) {
-                        feedback = "2 periods too late";
-                    } else if (difference > total_time / 6 && difference <= 2 * total_time / 6) {
-                        feedback = "1 period too late";
-                    } else if (difference > 3 * total_time / 6 && difference <= 4 * total_time / 6) {
-                        feedback = "1 period too early";
-                    } else if (difference > 4 * total_time / 6 && difference <= 5 * total_time / 6) {
-                        feedback = "2 periods too early";
-                    } else if (difference > 5 * total_time / 6) {
-                        feedback = "3 periods too early";
-                    } else {
-                        feedback = "Way too early";
-                    }
-                }
-
-                if (difference <= 0.001) {
-                    differenceDisplay.style.color = 'red';
+                if (reaction_time >= 2 * total_time / 6 && reaction_time <= 3 * total_time / 6) {
+                    feedback = "On time";
+                } else if (reaction_time >= 0 && reaction_time <= total_time / 6) {
+                    feedback = "2 periods too late";
+                } else if (reaction_time > total_time / 6 && reaction_time <= 2 * total_time / 6) {
+                    feedback = "1 period too late";
+                } else if (reaction_time > 3 * total_time / 6 && reaction_time <= 4 * total_time / 6) {
+                    feedback = "1 period too early";
+                } else if (reaction_time > 4 * total_time / 6 && reaction_time <= 5 * total_time / 6) {
+                    feedback = "2 periods too early";
+                } else if (reaction_time > 5 * total_time / 6) {
+                    feedback = "3 periods too early";
                 } else {
-                    differenceDisplay.style.color = 'blue';
+                    feedback = "Way too early";
                 }
 
-                // Update the label based on the specified conditions
                 differenceDisplay.textContent = `Period you clicked: ${feedback}`;
                 game_active = false;
                 clearInterval(countdown_interval);
@@ -147,7 +135,6 @@
 
         function updateResult() {
             if (game_active) {
-                difference = total_time - target_time;
                 document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
                 game_active = false;
             }
