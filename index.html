@@ -105,7 +105,9 @@
 
         function onPress() {
             if (game_active && reaction_time === null) {
-                reaction_time = new Date().getTime() / 1000 - start_time;
+                let currentTime = new Date().getTime() / 1000;
+                reaction_time = currentTime - start_time;
+                let remainingTimeAtClick = remaining_seconds;
 
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
@@ -126,7 +128,7 @@
                     feedback = "Way too early";
                 }
 
-                differenceDisplay.textContent = `Period you clicked: ${feedback}`;
+                differenceDisplay.textContent = `Period you clicked: ${feedback}. Remaining time at click: ${remainingTimeAtClick.toFixed(1)} seconds`;
                 game_active = false;
                 clearInterval(countdown_interval);
                 showRestartButton();
