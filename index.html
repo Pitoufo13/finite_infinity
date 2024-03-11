@@ -108,7 +108,7 @@
                 let currentTime = new Date().getTime() / 100;
                 reaction_time = currentTime - start_time;
                 let remainingTimeAtClick = remaining_seconds;
-                let lapse = total_time / numberOfPeriods;
+                let lapse = remainingTimeAtClick.toFixed(1);
 
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
