@@ -105,7 +105,7 @@
 
         function onPress() {
             if (game_active && reaction_time === null) {
-                let currentTime = new Date().getTime();
+                let currentTime = remainingTimeAtClick.toFixed(1);
                 reaction_time = (currentTime - start_time) / 1000; // Convert milliseconds to seconds
                 let remainingTimeAtClick = remaining_seconds;
                 let lapse = total_time / numberOfPeriods;
