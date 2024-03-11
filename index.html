@@ -103,12 +103,12 @@
             startCountdown();
         }
 
-        function onPress() {
+          function onPress() {
             if (game_active && reaction_time === null) {
-                let currentTime = remainingTimeAtClick.toFixed(1);
-                let reaction_time = (currentTime - start_time) / 1000; // Convert milliseconds to seconds
+                let currentTime = new Date().getTime() / 100;
+                reaction_time = currentTime - start_time;
                 let remainingTimeAtClick = remaining_seconds;
-                let lapse = total_time / numberOfPeriods;
+                let lapse = total_time/numberOfPeriods;
 
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
