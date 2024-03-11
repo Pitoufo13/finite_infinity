@@ -37,7 +37,6 @@
 <body>
     <script>
         let total_time = 6;
-        let target_time = 0;
         let start_time = 0;
         let reaction_time = null;
         let game_active = false;
@@ -65,6 +64,8 @@
 
         // Call the function to get the number of periods when the page loads
         window.onload = getNumberOfPeriods;
+
+                let target_time = 6/numberOfPeriods;
 
         function updateDisplay() {
             document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
