@@ -108,21 +108,22 @@
                 let currentTime = new Date().getTime() / 100;
                 reaction_time = currentTime - start_time;
                 let remainingTimeAtClick = remaining_seconds;
+                let lapse = total_time / numberOfPeriods;
 
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
 
-if (currentTime >= target_time && currentTime <= (target_time + total_time / numberOfPeriods)) {
+if (currentTime >= target_time && currentTime <= (target_time + lapse)) {
     feedback = "On time";
-} else if (currentTime > (target_time - 3 * total_time / numberOfPeriods) && currentTime <= (target_time - 2 * total_time / numberOfPeriods)) {
+} else if (currentTime > (target_time - 2 * lapse) && currentTime <= (target_time - 1 * lapse)) {
     feedback = "2 periods too late";
-} else if (currentTime > (target_time - 2 * total_time / numberOfPeriods) && currentTime <= (target_time - total_time / numberOfPeriods)) {
+} else if (currentTime > (target_time -  lapse) && currentTime <= (target_time)) {
     feedback = "1 period too late";
-} else if (currentTime > (target_time + total_time / numberOfPeriods) && currentTime <= (target_time + 2 * total_time / numberOfPeriods)) {
+} else if (currentTime > (target_time + lapse) && currentTime <= (target_time + 2 * lapse)) {
     feedback = "1 period too early";
-} else if (currentTime > (target_time + 2 * total_time / numberOfPeriods) && currentTime <= (target_time + 3 * total_time / numberOfPeriods)) {
+} else if (currentTime > (target_time + 2 * lapse) && currentTime <= (target_time + 3 * lapse)) {
     feedback = "2 periods too early";
-} else if (currentTime > (target_time + 3 * total_time / numberOfPeriods) && currentTime <= (target_time + 4 * total_time / numberOfPeriods)) {
+} else if (currentTime > (target_time + 3 * lapse) && currentTime <= (target_time + 4 * lapse)) {
     feedback = "3 periods too early";
 } else {
     feedback = "Way too early";
