@@ -112,8 +112,8 @@
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
 
-                if (remainingTimeAtClick.toFixed(1) >= target_time && remainingTimeAtClick.toFixed(1) <= 3 * total_time / 6) {
-                    feedback = "On time";
+if (remainingTimeAtClick.toFixed(1) >= target_time && remainingTimeAtClick.toFixed(1) <= (target_time + total_time / numberOfPeriods)) {
+    feedback = "On time";
                 } else if (remainingTimeAtClick.toFixed(1) >= 0 && remainingTimeAtClick.toFixed(1) <= total_time / 6) {
                     feedback = "2 periods too late";
                 } else if (remainingTimeAtClick.toFixed(1) > total_time / 6 && remainingTimeAtClick.toFixed(1) <= 2 * total_time / 6) {
