@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +14,6 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
-
         #game-info {
             position: absolute;
             top: 10px;
@@ -23,64 +21,53 @@
             transform: translateX(-50%);
             color: #333;
         }
-
         #game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         .restart-button {
             margin-top: 5mm;
         }
     </style>
 </head>
-
 <body>
     <script>
         let total_time = 6;
+        let target_time = 0;
         let start_time = 0;
-        let target_time = 2;
         let reaction_time = null;
         let game_active = false;
         let countdown_interval = null;
         let remaining_seconds = total_time;
         let restartButton = null;
         let numberOfPeriods = 1; // Default value
-
         // Function to get the number of periods from the user
         function getNumberOfPeriods() {
             numberOfPeriods = prompt("Choose the number of periods (positive integer):");
             numberOfPeriods = parseInt(numberOfPeriods);
-
             // Validate if the input is a positive integer
             while (isNaN(numberOfPeriods) || numberOfPeriods <= 0 || !Number.isInteger(numberOfPeriods)) {
                 numberOfPeriods = prompt("Invalid input. Please enter a positive integer for the number of periods:");
                 numberOfPeriods = parseInt(numberOfPeriods);
             }
-
             // Update period information
             document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
             document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
             document.getElementById('stop-info').textContent = `Stop the game between period ${numberOfPeriods - 2} and ${numberOfPeriods - 1}`;
         }
-
         // Call the function to get the number of periods when the page loads
         window.onload = getNumberOfPeriods;
-
-
         function updateDisplay() {
             document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
             document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
             document.getElementById('start-button').textContent = `Press Me!`;
             document.getElementById('start-button').onclick = onPress;
         }
-
         function startCountdown() {
             countdown_interval = setInterval(function () {
                 remaining_seconds -= 0.1;
                 document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
-
                 if (remaining_seconds <= 0) {
                     clearInterval(countdown_interval);
                     updateResult();
@@ -88,59 +75,56 @@
                 }
             }, 100);
         }
-
         function startGame() {
             if (restartButton) {
                 restartButton.style.display = 'none';
             }
 
-            start_time = new Date().getTime();
+            // Fix the target time to 2.000 seconds
+            target_time = 2 * 6 / numberOfPeriods;
+            target_time = 2 * total_time / numberOfPeriods;
+
+            start_time = new Date().getTime() / 100;
             reaction_time = null;
             game_active = true;
             remaining_seconds = total_time;
-
             updateDisplay();
             startCountdown();
         }
-
         function onPress() {
             if (game_active && reaction_time === null) {
-                let currentTime = new Date().getTime();
-                reaction_time = (currentTime - start_time) / 1000; // Convert milliseconds to seconds
+                let currentTime = new Date().getTime() / 100;
+                reaction_time = currentTime - start_time;
                 let remainingTimeAtClick = remaining_seconds;
-                let lapse = total_time / numberOfPeriods;
-
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
-
-                if (currentTime >= target_time && currentTime <= (target_time + lapse)) {
-                    feedback = "On time";
-                } else if (currentTime > (target_time - 2 * lapse) && currentTime <= (target_time - 1 * lapse)) {
-                    feedback = "2 periods too late";
-                } else if (currentTime > (target_time - lapse) && currentTime <= (target_time)) {
-                    feedback = "1 period too late";
-                } else if (currentTime > (target_time + lapse) && currentTime <= (target_time + 2 * lapse)) {
-                    feedback = "1 period too early";
-                } else if (currentTime > (target_time + 2 * lapse) && currentTime <= (target_time + 3 * lapse)) {
-                    feedback = "2 periods too early";
-                } else if (currentTime > (target_time + 3 * lapse) && currentTime <= (target_time + 4 * lapse)) {
-                    feedback = "3 periods too early";
-                } else {
-                    feedback = "Way too early";
-                }
+if (currentTime >= target_time && currentTime <= (target_time + total_time / numberOfPeriods)) {
+    feedback = "On time";
+} else if (currentTime > (target_time - 3 * total_time / numberOfPeriods) && currentTime <= (target_time - 2 * total_time / numberOfPeriods)) {
+    feedback = "2 periods too late";
+} else if (currentTime > (target_time - 2 * total_time / numberOfPeriods) && currentTime <= (target_time - total_time / numberOfPeriods)) {
+    feedback = "1 period too late";
+} else if (currentTime > (target_time + total_time / numberOfPeriods) && currentTime <= (target_time + 2 * total_time / numberOfPeriods)) {
+    feedback = "1 period too early";
+} else if (currentTime > (target_time + 2 * total_time / numberOfPeriods) && currentTime <= (target_time + 3 * total_time / numberOfPeriods)) {
+    feedback = "2 periods too early";
+} else if (currentTime > (target_time + 3 * total_time / numberOfPeriods) && currentTime <= (target_time + 4 * total_time / numberOfPeriods)) {
+    feedback = "3 periods too early";
+} else {
+    feedback = "Way too early";
+}
                 differenceDisplay.textContent = `Period you clicked: ${feedback}. Remaining time at click: ${remainingTimeAtClick.toFixed(1)} seconds`;
                 game_active = false;
                 clearInterval(countdown_interval);
                 showRestartButton();
             }
         }
-
         function updateResult() {
-            // Commented out the line below as the 'difference' variable is not defined.
-            // document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
-            game_active = false;
+            if (game_active) {
+                document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
+                game_active = false;
+            }
         }
-
         function showRestartButton() {
             if (!restartButton) {
                 restartButton = document.createElement('button');
@@ -153,19 +137,15 @@
             }
         }
     </script>
-
     <div id="game-info">
         <p id="period-info">Number of periods: T</p>
         <p id="period-length">Length of a period: 6/T</p>
         <p id="stop-info">Stop the game between period T-1 and T</p>
     </div>
-
     <div id="game-container">
         <p id="target-time"></p>
         <p id="remaining-time"></p>
         <button id="start-button" onclick="startGame()">Start</button>
     </div>
-
 </body>
-
 </html>
