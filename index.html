@@ -94,7 +94,7 @@
             // Fix the target time to 2.000 seconds
             target_time = 2 * 6 / numberOfPeriods;
 
-            start_time = new Date().getTime() / 1000;
+            start_time = new Date().getTime() / 100;
             reaction_time = null;
             game_active = true;
             remaining_seconds = total_time;
@@ -105,7 +105,7 @@
 
         function onPress() {
             if (game_active && reaction_time === null) {
-                let currentTime = new Date().getTime() / 1000;
+                let currentTime = new Date().getTime() / 100;
                 reaction_time = currentTime - start_time;
                 let remainingTimeAtClick = remaining_seconds;
 
