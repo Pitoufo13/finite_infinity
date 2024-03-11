@@ -118,6 +118,8 @@
                     feedback = "On time";
                 } else if (hittingtime > (target_time - 2 * lapse) && hittingtime <= (target_time - 1 * lapse)) {
                     feedback = "2 periods too late";
+               } else if (hittingtime < (target_time - 2 * lapse) ) {
+                    feedback = "way too late";
                 } else if (hittingtime > (target_time - lapse) && hittingtime <= (target_time)) {
                     feedback = "1 period too late";
                 } else if (hittingtime > (target_time + lapse) && hittingtime <= (target_time + 2 * lapse)) {
