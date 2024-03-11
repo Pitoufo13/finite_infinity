@@ -114,20 +114,19 @@
 
 if (remainingTimeAtClick.toFixed(1) >= target_time && remainingTimeAtClick.toFixed(1) <= (target_time + total_time / numberOfPeriods)) {
     feedback = "On time";
-                } else if (remainingTimeAtClick.toFixed(1) > (target_time - 3 * total_time / numberOfPeriods) <= (target_time - 2 * total_time / numberOfPeriods)) {
-                    feedback = "2 periods too late";
-                } else if (remainingTimeAtClick.toFixed(1) > (target_time - 2 * total_time / numberOfPeriods) <= (target_time - total_time / numberOfPeriods)) {
-                    feedback = "1 period too late";
-                } else if (remainingTimeAtClick.toFixed(1) >  (target_time + total_time / numberOfPeriods) <=  (target_time + 2 * total_time / numberOfPeriods) {
-                    feedback = "1 period too early";
-                } else if (remainingTimeAtClick.toFixed(1) >  (target_time + 2 * total_time / numberOfPeriods) <=  (target_time + 3 * total_time / numberOfPeriods) {
-                    feedback = "2 periods too early";
-                 } else if (remainingTimeAtClick.toFixed(1) >  (target_time + 3 * total_time / numberOfPeriods) <=  (target_time + 4 * total_time / numberOfPeriods) {
-                    feedback = "3 periods too early";
-               } else {
-                    feedback = "Way too early";
-                }
-
+} else if (remainingTimeAtClick.toFixed(1) > (target_time - 3 * total_time / numberOfPeriods) && remainingTimeAtClick.toFixed(1) <= (target_time - 2 * total_time / numberOfPeriods)) {
+    feedback = "2 periods too late";
+} else if (remainingTimeAtClick.toFixed(1) > (target_time - 2 * total_time / numberOfPeriods) && remainingTimeAtClick.toFixed(1) <= (target_time - total_time / numberOfPeriods)) {
+    feedback = "1 period too late";
+} else if (remainingTimeAtClick.toFixed(1) > (target_time + total_time / numberOfPeriods) && remainingTimeAtClick.toFixed(1) <= (target_time + 2 * total_time / numberOfPeriods)) {
+    feedback = "1 period too early";
+} else if (remainingTimeAtClick.toFixed(1) > (target_time + 2 * total_time / numberOfPeriods) && remainingTimeAtClick.toFixed(1) <= (target_time + 3 * total_time / numberOfPeriods)) {
+    feedback = "2 periods too early";
+} else if (remainingTimeAtClick.toFixed(1) > (target_time + 3 * total_time / numberOfPeriods) && remainingTimeAtClick.toFixed(1) <= (target_time + 4 * total_time / numberOfPeriods)) {
+    feedback = "3 periods too early";
+} else {
+    feedback = "Way too early";
+}
                 differenceDisplay.textContent = `Period you clicked: ${feedback}. Remaining time at click: ${remainingTimeAtClick.toFixed(1)} seconds`;
                 game_active = false;
                 clearInterval(countdown_interval);
