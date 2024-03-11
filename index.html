@@ -109,21 +109,22 @@
                 reaction_time = currentTime - start_time;
                 let remainingTimeAtClick = remaining_seconds;
                 let lapse = total_time/numberOfPeriods;
+                let hittingtime = remainingTimeAtClick.toFixed(1);
 
                 let differenceDisplay = document.getElementById('remaining-time');
                 let feedback = "";
 
-                if (currentTime >= target_time && currentTime <= (target_time + lapse)) {
+                if (hittingtime >= target_time && hittingtime <= (target_time + lapse)) {
                     feedback = "On time";
-                } else if (currentTime > (target_time - 2 * lapse) && currentTime <= (target_time - 1 * lapse)) {
+                } else if (hittingtime > (target_time - 2 * lapse) && hittingtime <= (target_time - 1 * lapse)) {
                     feedback = "2 periods too late";
-                } else if (currentTime > (target_time - lapse) && currentTime <= (target_time)) {
+                } else if (hittingtime > (target_time - lapse) && hittingtime <= (target_time)) {
                     feedback = "1 period too late";
-                } else if (currentTime > (target_time + lapse) && currentTime <= (target_time + 2 * lapse)) {
+                } else if (hittingtime > (target_time + lapse) && hittingtime <= (target_time + 2 * lapse)) {
                     feedback = "1 period too early";
-                } else if (currentTime > (target_time + 2 * lapse) && currentTime <= (target_time + 3 * lapse)) {
+                } else if (hittingtime > (target_time + 2 * lapse) && hittingtime <= (target_time + 3 * lapse)) {
                     feedback = "2 periods too early";
-                } else if (currentTime > (target_time + 3 * lapse) && currentTime <= (target_time + 4 * lapse)) {
+                } else if (hittingtime > (target_time + 3 * lapse) && hittingtime <= (target_time + 4 * lapse)) {
                     feedback = "3 periods too early";
                 } else {
                     feedback = "Way too early";
