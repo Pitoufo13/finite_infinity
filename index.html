@@ -60,9 +60,9 @@
             }
 
             // Update period information
-            document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
-            document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
-            document.getElementById('stop-info').textContent = `Stop the game between period ${numberOfPeriods - 2} and ${numberOfPeriods - 1}`;
+            document.getElementById('period-info').textContent = Number of periods: ${numberOfPeriods};
+            document.getElementById('period-length').textContent = Length of a period: ${total_time / numberOfPeriods};
+            document.getElementById('stop-info').textContent = Stop the game between period ${numberOfPeriods - 2} and ${numberOfPeriods - 1};
         }
 
         // Call the function to get the number of periods when the page loads
@@ -70,16 +70,16 @@
 
 
         function updateDisplay() {
-            document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)} seconds`;
-            document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
-            document.getElementById('start-button').textContent = `Press Me!`;
+            document.getElementById('target-time').textContent = Target Time: ${target_time.toFixed(3)} seconds;
+            document.getElementById('remaining-time').textContent = Time Remaining: ${remaining_seconds.toFixed(1)} seconds;
+            document.getElementById('start-button').textContent = Press Me!;
             document.getElementById('start-button').onclick = onPress;
         }
 
         function startCountdown() {
             countdown_interval = setInterval(function () {
                 remaining_seconds -= 0.1;
-                document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
+                document.getElementById('remaining-time').textContent = Time Remaining: ${remaining_seconds.toFixed(1)} seconds;
 
                 if (remaining_seconds <= 0) {
                     clearInterval(countdown_interval);
@@ -104,48 +104,46 @@
         }
 
           function onPress() {
-    if (game_active && reaction_time === null) {
-        let currentTime = new Date().getTime();
-        reaction_time = currentTime - start_time;
-        let remainingTimeAtClick = remaining_seconds;
-        let lapse = total_time / numberOfPeriods;
-        let hittingtime = remainingTimeAtClick.toFixed(1);
+            if (game_active && reaction_time === null) {
+                let currentTime = new Date().getTime();
+                reaction_time = currentTime - start_time;
+                let remainingTimeAtClick = remaining_seconds;
+                let lapse = total_time/numberOfPeriods;
+                let hittingtime = remainingTimeAtClick.toFixed(1);
 
-        let differenceDisplay = document.getElementById('remaining-time');
-        let feedback = "";
+                let differenceDisplay = document.getElementById('remaining-time');
+                let feedback = "";
 
-        // Adjusted interval for "On time" feedback
-        if (hittingtime >= (target_time - lapse) && hittingtime <= (target_time + lapse)) {
-            feedback = "On time";
-        } else if (hittingtime > (target_time - 2 * lapse) && hittingtime <= (target_time - 1 * lapse)) {
-            feedback = "2 periods too late";
-        } else if (hittingtime < (target_time - 2 * lapse)) {
-            feedback = "way too late";
-        } else if (hittingtime > (target_time - lapse) && hittingtime <= target_time) {
-            feedback = "1 period too late";
-        } else if (hittingtime > (target_time + lapse) && hittingtime <= (target_time + 2 * lapse)) {
-            feedback = "1 period too early";
-        } else if (hittingtime > (target_time + 2 * lapse) && hittingtime <= (target_time + 3 * lapse)) {
-            feedback = "2 periods too early";
-        } else if (hittingtime > (target_time + 3 * lapse) && hittingtime <= (target_time + 4 * lapse)) {
-            feedback = "3 periods too early";
-        } else {
-            feedback = "Way too early";
+                if (hittingtime >= target_time && hittingtime <= (target_time + lapse)) {
+                    feedback = "On time";
+                } else if (hittingtime > (target_time - 2 * lapse) && hittingtime <= (target_time - 1 * lapse)) {
+                    feedback = "2 periods too late";
+               } else if (hittingtime < (target_time - 2 * lapse) ) {
+                    feedback = "way too late";
+                } else if (hittingtime > (target_time - lapse) && hittingtime <= (target_time)) {
+                    feedback = "1 period too late";
+                } else if (hittingtime > (target_time + lapse) && hittingtime <= (target_time + 2 * lapse)) {
+                    feedback = "1 period too early";
+                } else if (hittingtime > (target_time + 2 * lapse) && hittingtime <= (target_time + 3 * lapse)) {
+                    feedback = "2 periods too early";
+                } else if (hittingtime > (target_time + 3 * lapse) && hittingtime <= (target_time + 4 * lapse)) {
+                    feedback = "3 periods too early";
+                } else {
+                    feedback = "Way too early";
+                }
+
+                // Add the current time and target time information
+                differenceDisplay.textContent = Period you clicked: ${feedback}. Remaining time at click: ${remainingTimeAtClick.toFixed(1)} seconds.;
+
+                game_active = false;
+                clearInterval(countdown_interval);
+                showRestartButton();
+            }
         }
-
-        // Add the current time and target time information
-        differenceDisplay.textContent = `Period you clicked: ${feedback}. Remaining time at click: ${remainingTimeAtClick.toFixed(1)} seconds.`;
-
-        game_active = false;
-        clearInterval(countdown_interval);
-        showRestartButton();
-    }
-}
-
 
         function updateResult() {
             // Commented out the line below as the 'difference' variable is not defined.
-            // document.getElementById('remaining-time').textContent = `Difference: ${difference.toFixed(3)} seconds`;
+            // document.getElementById('remaining-time').textContent = Difference: ${difference.toFixed(3)} seconds;
             game_active = false;
         }
 
