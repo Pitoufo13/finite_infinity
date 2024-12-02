@@ -75,11 +75,24 @@
         let numberOfPeriods = 1; // Default value
         let target_time = 0;
 
-        function updateTargetLine() {
+      function updateTargetLine() {
     const progressBar = document.getElementById('progress-bar-container');
     const targetLine = document.getElementById('target-line');
     const barWidth = progressBar.offsetWidth;
+
+    // Calculate the length of a period in seconds
     const lapse = total_time / numberOfPeriods;
+
+    // Calculate the width of the target line
+    const targetLineWidth = (lapse / total_time) * barWidth; 
+    
+    // Calculate the position of the target line
+    const targetPosition = (target_time * lapse) / total_time * barWidth; 
+
+    // Set the width and position of the target line
+    targetLine.style.width = `${targetLineWidth}px`; // Set the width of the target line
+    targetLine.style.left = `${targetPosition}px`;   // Position the target line
+}
 
     // Calculate the target period position
     const targetPosition = (target_time * lapse) / total_time * barWidth; 
