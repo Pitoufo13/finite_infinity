@@ -49,7 +49,7 @@
         let numberOfPeriods = 1; // Default value
 
         // Function to get the number of periods from the user
-   function getNumberOfPeriods() {
+function getNumberOfPeriods() {
     numberOfPeriods = prompt("Choose the number of periods (positive integer):");
     numberOfPeriods = parseInt(numberOfPeriods);
 
@@ -67,12 +67,22 @@
         target_time = 0;
     }
 
+    // Determine stop periods
+    const stopPeriodStart = numberOfPeriods - 4;
+    const stopPeriodEnd = numberOfPeriods - 3;
+
+    // Ensure stop periods are valid
+    const stopInfo = (stopPeriodStart > 0 && stopPeriodEnd > 0)
+        ? `Stop the game between period ${stopPeriodStart} and ${stopPeriodEnd}`
+        : "Stop periods not applicable for this configuration.";
+
     // Update period information
     document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
     document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
-    document.getElementById('stop-info').textContent = `Stop the game between period ${Math.ceil(total_time / 3) - 1} and ${Math.ceil(total_time / 3)}`;
+    document.getElementById('stop-info').textContent = stopInfo;
     document.getElementById('target-time').textContent = `Target Time: ${target_time} seconds`; // Display updated target time
 }
+
 
 
         // Call the function to get the number of periods when the page loads
