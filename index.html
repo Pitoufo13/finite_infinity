@@ -46,49 +46,48 @@
         let remaining_seconds = total_time;
         let restartButton = null;
         let numberOfPeriods = 1; // Default value
+        let target_time = 0;
 
         // Function to get the number of periods from the user
-function getNumberOfPeriods() {
-    numberOfPeriods = prompt("Choose the number of periods (positive integer):");
-    numberOfPeriods = parseInt(numberOfPeriods);
+        function getNumberOfPeriods() {
+            numberOfPeriods = prompt("Choose the number of periods (positive integer):");
+            numberOfPeriods = parseInt(numberOfPeriods);
 
-    // Validate if the input is a positive integer
-    while (isNaN(numberOfPeriods) || numberOfPeriods <= 0 || !Number.isInteger(numberOfPeriods)) {
-        numberOfPeriods = prompt("Invalid input. Please enter a positive integer for the number of periods:");
-        numberOfPeriods = parseInt(numberOfPeriods);
-    }
+            // Validate if the input is a positive integer
+            while (isNaN(numberOfPeriods) || numberOfPeriods <= 0 || !Number.isInteger(numberOfPeriods)) {
+                numberOfPeriods = prompt("Invalid input. Please enter a positive integer for the number of periods:");
+                numberOfPeriods = parseInt(numberOfPeriods);
+            }
 
-    // Set the target time as T - 3
-    target_time = numberOfPeriods - 3;
+            // Set the target time as T - 3
+            target_time = numberOfPeriods - 3;
 
-    // Ensure target time is not negative
-    if (target_time < 0) {
-        target_time = 0;
-    }
+            // Ensure target time is not negative
+            if (target_time < 0) {
+                target_time = 0;
+            }
 
-    // Determine stop periods
-    const stopPeriodStart = numberOfPeriods - 4;
-    const stopPeriodEnd = numberOfPeriods - 3;
+            // Determine stop periods
+            const stopPeriodStart = numberOfPeriods - 4;
+            const stopPeriodEnd = numberOfPeriods - 3;
 
-    // Ensure stop periods are valid
-    const stopInfo = (stopPeriodStart > 0 && stopPeriodEnd > 0)
-        ? `Stop the game between period ${stopPeriodStart} and ${stopPeriodEnd}`
-        : "Stop periods not applicable for this configuration.";
+            // Ensure stop periods are valid
+            const stopInfo = (stopPeriodStart > 0 && stopPeriodEnd > 0)
+                ? `Stop the game between period ${stopPeriodStart} and ${stopPeriodEnd}`
+                : "Stop periods not applicable for this configuration.";
 
-    // Update period information
-    document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
-    document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
-    document.getElementById('stop-info').textContent = stopInfo;
-    document.getElementById('target-time').textContent = `Target Period: ${target_time}`; // Display updated target time
-}
-
-
+            // Update period information
+            document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
+            document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
+            document.getElementById('stop-info').textContent = stopInfo;
+            document.getElementById('target-time').textContent = `Target Period: ${target_time}`; // Display updated target time
+        }
 
         // Call the function to get the number of periods when the page loads
         window.onload = getNumberOfPeriods;
 
         function updateDisplay() {
-            document.getElementById('target-time').textContent = `Target Time: ${target_time.toFixed(3)}`;
+            document.getElementById('target-time').textContent = `Target Period: ${target_time}`;
             document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(3)} seconds`;
             document.getElementById('start-button').textContent = `Press Me!`;
             document.getElementById('start-button').onclick = onPress;
@@ -96,7 +95,7 @@ function getNumberOfPeriods() {
 
         function updateCurrentPeriod() {
             const lapse = total_time / numberOfPeriods;
-            const currentPeriod = Math.ceil((total_time - remaining_seconds) / lapse);
+            const currentPeriod = Math.floor((total_time - remaining_seconds) / lapse) + 1;
             document.getElementById('current-period').textContent = `You're in period: ${currentPeriod}`;
         }
 
@@ -128,43 +127,44 @@ function getNumberOfPeriods() {
             startCountdown();
         }
 
-function onPress() {
-    if (game_active && reaction_time === null) {
-        let currentTime = new Date().getTime();
-        reaction_time = currentTime - start_time;
-        let remainingTimeAtClick = remaining_seconds;
-        let lapse = total_time / numberOfPeriods;
+        function onPress() {
+            if (game_active && reaction_time === null) {
+                let currentTime = new Date().getTime();
+                reaction_time = currentTime - start_time;
+                let lapse = total_time / numberOfPeriods;
 
-        // Calculate the current period
-        const currentPeriod = Math.ceil((total_time - remaining_seconds) / lapse);
+                // Calculate the current period (adjusted logic)
+                const currentPeriod = Math.floor((total_time - remaining_seconds) / lapse) + 1;
 
-        let feedback = "";
+                let feedback = "";
 
-        // Updated feedback logic based on periods
-        if (currentPeriod === target_time) {
-            feedback = "On time";
-        } else if (currentPeriod === target_time + 1) {
-            feedback = "1 period too late";
-        } else if (currentPeriod === target_time + 2) {
-            feedback = "2 periods too late";
-        } else if (currentPeriod === target_time - 1) {
-            feedback = "1 period too early";
-        } else if (currentPeriod === target_time - 2) {
-            feedback = "2 periods too early";
-        } else if (currentPeriod < target_time - 2) {
-            feedback = "Way too early";
-        } else if (currentPeriod > target_time + 2) {
-            feedback = "Way too late";
+                // Updated feedback logic based on periods
+                if (currentPeriod === target_time) {
+                    feedback = "On time";
+                } else if (currentPeriod === target_time + 1) {
+                    feedback = "1 period too late";
+                } else if (currentPeriod === target_time + 2) {
+                    feedback = "2 periods too late";
+                } else if (currentPeriod === target_time - 1) {
+                    feedback = "1 period too early";
+                } else if (currentPeriod === target_time - 2) {
+                    feedback = "2 periods too early";
+                } else if (currentPeriod < target_time - 2) {
+                    feedback = "Way too early";
+                } else if (currentPeriod > target_time + 2) {
+                    feedback = "Way too late";
+                }
+
+                // Add the current period and feedback information
+                const differenceDisplay = document.getElementById('remaining-time');
+                differenceDisplay.textContent = `Period you clicked: ${feedback}. You clicked in period: ${currentPeriod}.`;
+
+                game_active = false;
+                clearInterval(countdown_interval);
+                showRestartButton();
+            }
         }
 
-        // Add the current period and feedback information
-        const differenceDisplay = document.getElementById('remaining-time');
-        differenceDisplay.textContent = `Period you clicked: ${feedback}. You clicked in period: ${currentPeriod}.`;
-
-        game_active = false;
-        clearInterval(countdown_interval);
-        showRestartButton();
-    }
         function updateResult() {
             game_active = false;
         }
@@ -191,7 +191,7 @@ function onPress() {
     <div id="game-container">
         <p id="target-time"></p>
         <p id="remaining-time"></p>
-        <p id="current-period">You're in period: 1</p> <!-- Added here -->
+        <p id="current-period">You're in period: 1</p>
         <button id="start-button" onclick="startGame()">Start</button>
     </div>
 </body>
