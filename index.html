@@ -30,6 +30,25 @@
             align-items: center;
         }
 
+        #progress-bar-container {
+            width: 80%;
+            height: 10px;
+            background-color: #e0e0e0;
+            position: relative;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        #cursor {
+            width: 10px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+            top: -5px;
+            border-radius: 2px;
+            transition: left 0.1s linear;
+        }
+
         .restart-button {
             margin-top: 5mm;
         }
@@ -78,7 +97,7 @@
 
             // Update period information
             document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
-            document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods} seconds`;
+            document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
             document.getElementById('stop-info').textContent = stopInfo;
             document.getElementById('target-time').textContent = `Target Period: ${target_time}`; // Display updated target time
         }
@@ -100,10 +119,19 @@
         }
 
         function startCountdown() {
+            const progressBar = document.getElementById('progress-bar-container');
+            const cursor = document.getElementById('cursor');
+            const barWidth = progressBar.offsetWidth;
+
             countdown_interval = setInterval(function () {
                 remaining_seconds -= 0.1;
                 document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
                 updateCurrentPeriod(); // Update the current period dynamically
+
+                // Move the cursor
+                const elapsed = total_time - remaining_seconds;
+                const newPosition = (elapsed / total_time) * barWidth;
+                cursor.style.left = `${newPosition}px`;
 
                 if (remaining_seconds <= 0) {
                     clearInterval(countdown_interval);
@@ -124,6 +152,11 @@
             remaining_seconds = total_time;
 
             updateDisplay();
+
+            // Reset the cursor to the start position
+            const cursor = document.getElementById('cursor');
+            cursor.style.left = '0px';
+
             startCountdown();
         }
 
@@ -192,6 +225,9 @@
         <p id="target-time"></p>
         <p id="remaining-time"></p>
         <p id="current-period">You're in period: 1</p>
+        <div id="progress-bar-container">
+            <div id="cursor"></div>
+        </div>
         <button id="start-button" onclick="startGame()">Start</button>
     </div>
 </body>
