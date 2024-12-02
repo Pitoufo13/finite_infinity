@@ -49,6 +49,14 @@
             transition: left 0.1s linear;
         }
 
+        #target-line {
+    width: 30px;                 /* Set the target line width */
+    height: 2px;                 /* Set the height of the line */
+    background-color: black;     /* Set the color of the line */
+    position: absolute;          /* Position absolutely within the progress container */
+    top: 0;                       /* Align the line with the top of the progress bar */
+}
+
         .restart-button {
             margin-top: 5mm;
         }
@@ -67,6 +75,16 @@
         let numberOfPeriods = 1; // Default value
         let target_time = 0;
 
+        function updateTargetLine() {
+    const progressBar = document.getElementById('progress-bar-container');
+    const targetLine = document.getElementById('target-line');
+    const barWidth = progressBar.offsetWidth;
+    const lapse = total_time / numberOfPeriods;
+
+    // Calculate the target period position
+    const targetPosition = (target_time * lapse) / total_time * barWidth; 
+    targetLine.style.left = `${targetPosition}px`; // Position the target line
+}
         // Function to get the number of periods from the user
         function getNumberOfPeriods() {
             numberOfPeriods = prompt("Choose the number of periods (positive integer):");
@@ -227,6 +245,7 @@
         <p id="current-period">You're in period: 1</p>
         <div id="progress-bar-container">
             <div id="cursor"></div>
+          <div id="target-line"></div>
         </div>
         <button id="start-button" onclick="startGame()">Start</button>
     </div>
