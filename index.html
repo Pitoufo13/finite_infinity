@@ -49,21 +49,31 @@
         let numberOfPeriods = 1; // Default value
 
         // Function to get the number of periods from the user
-        function getNumberOfPeriods() {
-            numberOfPeriods = prompt("Choose the number of periods (positive integer):");
-            numberOfPeriods = parseInt(numberOfPeriods);
+   function getNumberOfPeriods() {
+    numberOfPeriods = prompt("Choose the number of periods (positive integer):");
+    numberOfPeriods = parseInt(numberOfPeriods);
 
-            // Validate if the input is a positive integer
-            while (isNaN(numberOfPeriods) || numberOfPeriods <= 0 || !Number.isInteger(numberOfPeriods)) {
-                numberOfPeriods = prompt("Invalid input. Please enter a positive integer for the number of periods:");
-                numberOfPeriods = parseInt(numberOfPeriods);
-            }
+    // Validate if the input is a positive integer
+    while (isNaN(numberOfPeriods) || numberOfPeriods <= 0 || !Number.isInteger(numberOfPeriods)) {
+        numberOfPeriods = prompt("Invalid input. Please enter a positive integer for the number of periods:");
+        numberOfPeriods = parseInt(numberOfPeriods);
+    }
 
-            // Update period information
-            document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
-            document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
-            document.getElementById('stop-info').textContent = `Stop the game between period ${Math.ceil(total_time / 3) - 1} and ${Math.ceil(total_time / 3)}`;
-        }
+    // Set the target time as T - 2
+    target_time = numberOfPeriods - 2;
+
+    // Ensure target time is not negative
+    if (target_time < 0) {
+        target_time = 0;
+    }
+
+    // Update period information
+    document.getElementById('period-info').textContent = `Number of periods: ${numberOfPeriods}`;
+    document.getElementById('period-length').textContent = `Length of a period: ${total_time / numberOfPeriods}`;
+    document.getElementById('stop-info').textContent = `Stop the game between period ${Math.ceil(total_time / 3) - 1} and ${Math.ceil(total_time / 3)}`;
+    document.getElementById('target-time').textContent = `Target Time: ${target_time} seconds`; // Display updated target time
+}
+
 
         // Call the function to get the number of periods when the page loads
         window.onload = getNumberOfPeriods;
