@@ -75,7 +75,7 @@
         let numberOfPeriods = 1; // Default value
         let target_time = 0;
 
-      function updateTargetLine() {
+    function updateTargetLine() {
     const progressBar = document.getElementById('progress-bar-container');
     const targetLine = document.getElementById('target-line');
     const barWidth = progressBar.offsetWidth;
@@ -94,10 +94,6 @@
     targetLine.style.left = `${targetPosition}px`;   // Position the target line
 }
 
-    // Calculate the target period position
-    const targetPosition = (target_time * lapse) / total_time * barWidth; 
-    targetLine.style.left = `${targetPosition}px`; // Position the target line
-}
         // Function to get the number of periods from the user
       function getNumberOfPeriods() {
     numberOfPeriods = prompt("Choose the number of periods (positive integer):");
