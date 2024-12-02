@@ -134,36 +134,37 @@ function onPress() {
         reaction_time = currentTime - start_time;
         let remainingTimeAtClick = remaining_seconds;
         let lapse = total_time / numberOfPeriods;
-        let hittingtime = remainingTimeAtClick.toFixed(1);
 
-        let differenceDisplay = document.getElementById('remaining-time');
+        // Calculate the current period
+        const currentPeriod = Math.ceil((total_time - remaining_seconds) / lapse);
+
         let feedback = "";
 
-        // Updated feedback logic
-        if (hittingtime >= (target_time - lapse) && hittingtime < target_time) {
+        // Updated feedback logic based on periods
+        if (currentPeriod === target_time) {
             feedback = "On time";
-        } else if (hittingtime >= target_time && hittingtime < (target_time + lapse)) {
+        } else if (currentPeriod === target_time + 1) {
             feedback = "1 period too late";
-        } else if (hittingtime >= (target_time + lapse) && hittingtime < (target_time + 2 * lapse)) {
+        } else if (currentPeriod === target_time + 2) {
             feedback = "2 periods too late";
-        } else if (hittingtime < (target_time - lapse) && hittingtime >= (target_time - 2 * lapse)) {
+        } else if (currentPeriod === target_time - 1) {
             feedback = "1 period too early";
-        } else if (hittingtime < (target_time - 2 * lapse) && hittingtime >= (target_time - 3 * lapse)) {
+        } else if (currentPeriod === target_time - 2) {
             feedback = "2 periods too early";
-        } else if (hittingtime < (target_time - 3 * lapse)) {
+        } else if (currentPeriod < target_time - 2) {
             feedback = "Way too early";
-        } else if (hittingtime >= (target_time + 2 * lapse)) {
+        } else if (currentPeriod > target_time + 2) {
             feedback = "Way too late";
         }
 
-        // Add the current time and target time information
-        differenceDisplay.textContent = `Period you clicked: ${feedback}. Remaining time at click: ${remainingTimeAtClick.toFixed(3)} seconds.`;
+        // Add the current period and feedback information
+        const differenceDisplay = document.getElementById('remaining-time');
+        differenceDisplay.textContent = `Period you clicked: ${feedback}. You clicked in period: ${currentPeriod}.`;
 
         game_active = false;
         clearInterval(countdown_interval);
         showRestartButton();
     }
-}
         function updateResult() {
             game_active = false;
         }
