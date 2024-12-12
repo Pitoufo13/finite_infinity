@@ -87,7 +87,7 @@
     const targetLineWidth = (lapse / total_time) * barWidth; 
     
     // Calculate the position of the target line
-    const targetPosition = (target_time * lapse) / total_time * barWidth; 
+    const targetPosition = ((target_time +1 )* lapse) / total_time * barWidth; 
 
     // Set the width and position of the target line
     targetLine.style.width = `${targetLineWidth}px`; // Set the width of the target line
