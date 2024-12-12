@@ -137,6 +137,7 @@
 
         function updateDisplay() {
             document.getElementById('target-time').textContent = `Target Period: ${target_time}`;
+            document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(3)} seconds`;
             document.getElementById('start-button').textContent = `Press Me!`;
             document.getElementById('start-button').onclick = onPress;
         }
@@ -154,6 +155,7 @@
 
             countdown_interval = setInterval(function () {
                 remaining_seconds -= 0.1;
+                document.getElementById('remaining-time').textContent = `Time Remaining: ${remaining_seconds.toFixed(1)} seconds`;
                 updateCurrentPeriod(); // Update the current period dynamically
 
                 // Move the cursor
